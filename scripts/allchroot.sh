@@ -22,7 +22,6 @@ mount -t proc none ../../allanin/proc > /dev/null &
 mount -o bind /sys ../../allanin/sys > /dev/null &
 mount -o bind /tmp ../../allanin/tmp > /dev/null &
 
-
 # etc
 echo "Copy required config files"
 cp -a ../base/etc/asound.conf ../../allanin/etc/
@@ -43,7 +42,8 @@ cp -a ../base/portage/make.conf ../../allanin/etc/portage/
 cp -a ../base/portage/package.accept_keywords ../../allanin/etc/portage/
 cp -a ../base/portage/package.use ../../allanin/etc/portage/
 
-cp -a ../base/portage/gentoo.conf ../../allanin/etc/portage/repos.conf/
+cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
+cp -a ../base/portage/emunin.conf ../../allanin/etc/portage/repos.conf/
 
 #systemd
 cp -a ../base/systemd/timesyncd.conf ../../allanin/etc/systemd/timesyncd.conf
@@ -60,7 +60,8 @@ cp -a ../../portage ../../allanin/usr/
 
 #overlay
 echo "Copy overlay files"
-cp -a ../../overlay/abendbrot ../../allanin/usr/local/overlay/
+cp -a ../../overlay/allanin ../../allanin/usr/local/overlay/
+cp -a ../../overlay/emunin ../../allanin/usr/local/overlay/
 
 #distfiles
 echo "Copy portage distfiles"

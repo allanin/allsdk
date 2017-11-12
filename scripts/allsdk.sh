@@ -20,7 +20,7 @@ emerge linux-firmware ntfs3g wireless-tools
 #ToDo for further using nfc
 #emerge libnfc nfc-eventd
 
-emerge retroarch lakka
+emerge retroarch allanin
 
 #ToDo enable when wpa_supplicant does not python 2.7 anymore
 #emerge -C =dev-lang/python-2.7.14
@@ -38,7 +38,7 @@ mv /root/config /usr/src/linux/.config
 
 mkdir -p /storage/.cache/services/
 mkdir /storage/roms
-chown -R lakka:lakka /storage/
+chown -R allanin:allanin /storage/
 
 
 chmod 4755 /usr/bin/connmanctl
@@ -52,10 +52,10 @@ systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
 systemctl enable wpa_supplicant.service
 systemctl enable bluetooth.service
-systemctl enable lakka.service
+systemctl enable allanin.service
 #systemctl enable nfceventd.service
 systemctl enable connman
-systemctl enable devmon@lakka
+systemctl enable devmon@allanin
 
 hostnamectl set-hostname www.allanin.org
 
@@ -75,4 +75,4 @@ connmanctl enable wifi
 echo ""
 echo "Please change your password with passwd"
 echo ""
-passwd lakka
+passwd allanin
