@@ -10,9 +10,14 @@ mkdir -p ../../stages
 
 mkdir -p ../../allanin
 
+git clone https://github.com/allanin/allanin.git ../../overlay/allanin
+git clone https://github.com/allanin/emunin.git ../../overlay/emunin
+
+#wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171108.tar.bz2  -P ../../stages/
+
 #bootstrap
 echo "Extract files for bootstrapping"
-tar xjpf ../../stages/stage3-amd64-systemd-20171028.tar.bz2 -C ../../allanin
+tar xjpf ../../stages/stage3-amd64-systemd-20171108.tar.bz2 -C ../../allanin
 mkdir -p ../../allanin/usr/local/overlay
 mkdir ../../allanin/etc/portage/repos.conf
 
