@@ -43,6 +43,9 @@ cp -a /etc/locale.gen /build/etc/
 #systemd
 cp -a /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf
 
+#modules
+cp -a /lib/modules/ /build/lib/
+
 #active services
 #cd /build
 #ln -s etc/systemd/system/multi-user.target.wants/sshd.service usr/lib/systemd/system/sshd.service
