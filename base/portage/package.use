@@ -1,0 +1,11 @@
+>=dev-python/appdirs-1.4.3 python_targets_python2_7
+>=dev-python/packaging-16.8 python_targets_python2_7
+>=dev-python/six-1.10.0 python_targets_python2_7
+>=dev-python/pyparsing-2.1.10 python_targets_python2_7
+>=dev-python/m2crypto-0.24.0 python_targets_python2_7
+>=dev-python/certifi-2017.4.17 python_targets_python2_7
+>=dev-python/setuptools-34.0.2-r1 python_targets_python2_7
+>=sys-apps/util-linux-2.28.2 kill
+>=app-text/asciidoc-8.6.9-r2 python_targets_python2_7 python_single_target_python2_7
+>=dev-db/postgresql-9.5.8 server
+>=media-video/ffmpeg-3.3.4 -ssh
