@@ -17,7 +17,7 @@ emerge -e --deep --with-bdeps=y --newuse @world
 emerge =dev-lang/python-2.7.14
 emerge linux-firmware ntfs3g openssh wireless-tools
 
-emerge retroarch lakka
+emerge retroarch allanin
 
 mkdir -p /build/storage/.cache/services/
 mkdir /build/storage/roms
