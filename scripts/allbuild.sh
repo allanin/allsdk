@@ -21,7 +21,7 @@ emerge retroarch lakka
 
 mkdir -p /build/storage/.cache/services/
 mkdir /build/storage/roms
-chown -R lakka:lakka /build/storage/
+chown -R allanin:allanin /build/storage/
 
 chmod 4755 /build/usr/bin/connmanctl
 chmod 4755 /build/usr/bin/systemctl
@@ -55,6 +55,9 @@ cp -a /lib/modules/ /build/lib/
 #ln -s etc/systemd/system/multi-user.target.wants/wpa_supplicant.service usr/lib/systemd/system/wpa_supplicant.service
 #ln -s etc/systemd/system/dbus-org.bluez.service usr/lib/systemd/system/bluetooth.service
 #ln -s etc/systemd/system/bluetooth.target.wants/bluetooth.service usr/lib/systemd/system/bluetooth.service
+#Created symlink /etc/systemd/system/allanin.target.wants/allanin.service → /etc/systemd/system/allanin.service.
+#Created symlink /etc/systemd/system/multi-user.target.wants/connman.service → /usr/lib/systemd/system/connman.service.
+#Created symlink /etc/systemd/system/multi-user.target.wants/devmon@allanin.service → /usr/lib/systemd/system/devmon@.service.
 
 emerge --unmerge gcc
 emerge --unmerge portage

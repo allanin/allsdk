@@ -10,7 +10,7 @@ etc-update --automode -3
 locale-gen
 
 emerge dev-vcs/git
-#emerge --sync
+emerge --sync
 emerge -e --deep --with-bdeps=y --newuse @world
 #emerge --sync
 emerge --depclean
