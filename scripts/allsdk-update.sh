@@ -1,7 +1,6 @@
 #!/bin/bash
 
 function create_base () {
-
 	emerge dev-vcs/git
 	emerge --sync
 	emerge -e --deep --with-bdeps=y --newuse @world

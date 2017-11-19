@@ -1,72 +1,93 @@
 #!/bin/bash
 
-sed -i '/#ROOT=/c\ROOT="/build"' /etc/portage/make.conf
+function create_build () {
+	sed -i '/#ROOT=/c\ROOT="/build"' /etc/portage/make.conf
+	emerge baselayout
+	emerge -e --deep --with-bdeps=y --newuse @world
+	emerge =dev-lang/python-2.7.14
+	emerge linux-firmware ntfs3g openssh wireless-tools
+	emerge retroarch allanin
+}
 
-rm -rf /build
+function prepare_build () {
+	rm -rf /build
+	mkdir /build
+	mkdir /build/dev
+	mkdir /build/proc
+	mkdir /build/sys
+	mkdir /build/tmp
+	mkdir -p /build/storage/.cache/services/
+	mkdir /build/storage/roms
 
-mkdir /build
-mkdir /build/dev
-mkdir /build/proc
-mkdir /build/sys
-mkdir /build/tmp
-chmod -R 777 /build/tmp
-chmod +t /build/tmp
+	chmod -R 777 /build/tmp
+	chmod +t /build/tmp
+	chown -R allanin:allanin /build/storage/
+}
 
-emerge baselayout
-emerge -e --deep --with-bdeps=y --newuse @world
-emerge =dev-lang/python-2.7.14
-emerge linux-firmware ntfs3g openssh wireless-tools
+function copy_configs () {
+	cp -a /etc/asound.conf /build/etc/
+	cp -a /etc/fstab /build/etc/
+	cp -a /etc/sudoers /build/etc/
+	cp -a /etc/passwd /build/etc/
+	cp -a /etc/shadow /build/etc/
+	cp -a /etc/gshadow /build/etc/
+	cp -a /etc/group /build/etc/
+	cp -a /etc/os-release /build/etc/
+	cp -a /etc/locale.gen /build/etc/
 
-emerge retroarch allanin
+	cp -a /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf
+}
 
-mkdir -p /build/storage/.cache/services/
-mkdir /build/storage/roms
-chown -R allanin:allanin /build/storage/
+function copy_modules () {
+	cp -a /lib/modules/ /build/lib/
+}
 
-chmod 4755 /build/usr/bin/connmanctl
-chmod 4755 /build/usr/bin/systemctl
-chmod 4755 /build/sbin/shutdown
+function clean_build () {
+	emerge --unmerge gcc
+	emerge --unmerge portage
+	emerge --unmerge gcc-config
+	emerge --unmerge make
+	emerge --unmerge patch
+	emerge --unmerge man
+	emerge --unmerge man-pages
+	emerge --unmerge man-pages-posix
+	emerge --unmerge binutils
+	emerge --unmerge binutils-config
+	emerge --unmerge gnuconfig
+}
 
-echo 'export PATH=$PATH:/sbin' >> /build/etc/profile
+function adjust_permissions () {
+	chmod 4755 /build/usr/bin/connmanctl
+	chmod 4755 /build/usr/bin/systemctl
+	chmod 4755 /build/sbin/shutdown
 
-#etc
-cp -a /etc/asound.conf /build/etc/
-cp -a /etc/fstab /build/etc/
-cp -a /etc/sudoers /build/etc/
-cp -a /etc/passwd /build/etc/
-cp -a /etc/shadow /build/etc/
-cp -a /etc/gshadow /build/etc/
-cp -a /etc/group /build/etc/
-cp -a /etc/os-release /build/etc/
-cp -a /etc/locale.gen /build/etc/
+	echo 'export PATH=$PATH:/sbin' >> /build/etc/profile
+}
 
-#systemd
-cp -a /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf
+function create_allanin () {
+	remove_allanin;
+	prepare_build;
+	create_build;
+	copy_configs;
+	copy_modules;
+	clean_build;
+	adjust_permissions;
+	activate_services;
+}
 
-#modules
-cp -a /lib/modules/ /build/lib/
+function remove_allanin () {
+	rm -rf /build
+}
 
-#active services
-#cd /build
-#ln -s etc/systemd/system/multi-user.target.wants/sshd.service usr/lib/systemd/system/sshd.service
-#ln -s etc/systemd/system/multi-user.target.wants/systemd-networkd.service usr/lib/systemd/system/systemd-networkd.service
-#ln -s etc/systemd/system/sockets.target.wants/systemd-networkd.socket usr/lib/systemd/system/systemd-networkd.socket
-#ln -s etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service usr/lib/systemd/system/wpa_supplicant.service
-#ln -s etc/systemd/system/multi-user.target.wants/wpa_supplicant.service usr/lib/systemd/system/wpa_supplicant.service
-#ln -s etc/systemd/system/dbus-org.bluez.service usr/lib/systemd/system/bluetooth.service
-#ln -s etc/systemd/system/bluetooth.target.wants/bluetooth.service usr/lib/systemd/system/bluetooth.service
-#Created symlink /etc/systemd/system/allanin.target.wants/allanin.service → /etc/systemd/system/allanin.service.
-#Created symlink /etc/systemd/system/multi-user.target.wants/connman.service → /usr/lib/systemd/system/connman.service.
-#Created symlink /etc/systemd/system/multi-user.target.wants/devmon@allanin.service → /usr/lib/systemd/system/devmon@.service.
-
-emerge --unmerge gcc
-emerge --unmerge portage
-emerge --unmerge gcc-config
-emerge --unmerge make
-emerge --unmerge patch
-emerge --unmerge man
-emerge --unmerge man-pages
-emerge --unmerge man-pages-posix
-emerge --unmerge binutils
-emerge --unmerge binutils-config
-emerge --unmerge gnuconfig
+case "$1" in
+        "create-allanin")
+                create_allanin;
+        ;;
+        "remove-allanin")
+                remove_allanin;
+        ;;
+        *)
+        echo "You have failed to specify what to do correctly."
+        exit 1
+        ;;
+esac
