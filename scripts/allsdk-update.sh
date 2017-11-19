@@ -1,78 +1,80 @@
 #!/bin/bash
 
-passwd -d root
+function create_base () {
 
-eselect profile set 9
+	emerge dev-vcs/git
+	emerge --sync
+	emerge -e --deep --with-bdeps=y --newuse @world
+	emerge --sync
+	emerge --depclean
+	emerge =dev-lang/python-2.7.14
+	emerge linux-firmware ntfs3g wireless-tools
+}
 
-source /etc/profile
-env-update
-etc-update --automode -3
-locale-gen
+function prepare_chroot () {
+	sed -i '/ROOT=/c\#ROOT=' /etc/portage/make.conf
 
-emerge dev-vcs/git
-emerge --sync
-emerge -e --deep --with-bdeps=y --newuse @world
-#emerge --sync
-emerge --depclean
-emerge =dev-lang/python-2.7.14
-emerge linux-firmware ntfs3g wireless-tools
+	passwd -d root
+	eselect profile set 9
 
-#ToDo for further using nfc
-#emerge libnfc nfc-eventd
+	source /etc/profile
+	env-update
+	etc-update --automode -3
+	locale-gen
+}
 
-emerge retroarch allanin
+function create_allanin () {
+	emerge retroarch allanin
+}
 
-#ToDo enable when wpa_supplicant does not python 2.7 anymore
-#emerge -C =dev-lang/python-2.7.14
+function build_kernel () {
+	emerge gentoo-sources dracut
+	cp /root/config /usr/src/linux/.config
 
-emerge gentoo-sources dracut
-eselect news read
+	cd /usr/src/linux
+	make -j 4 && make modules_install -j 4 && make install -j 4
+	dracut --force
+}
 
-#mv /root/nfceventd.service /etc/systemd/system
+function clean_up () {
+	eselect news read
+}
 
-mv /root/config /usr/src/linux/.config
+function create_packages () {
+	prepare_chroot;
+	create_base;
+	create_allanin;
+	build_kernel;
+	clean_up;
+}
 
-#cd /usr/src/linux
-#make -j 4 && make modules_install -j 4 && make install -j 4
-#dracut --force
+function update_packages () {
+	emerge -uND world;
+	clean_up;
+}
 
-mkdir -p /storage/.cache/services/
-mkdir /storage/roms
-chown -R allanin:allanin /storage/
+case "$1" in
+        "create-base")
+                create_base;
+        ;;
+        "prepare-chroot")
+                prepare_chroot;
+        ;;
+        "create-allanin")
+                create_allanin;
+        ;;
+        "build-kernel")
+                build_kernel;
+        ;;
+        "create-packages")
+                create_packages;
+        ;;
+        "update-packages")
+                update_packages;
+        ;;
+        *)
+        echo "You have failed to specify what to do correctly."
+        exit 1
+        ;;
+esac
 
-
-chmod 4755 /usr/bin/connmanctl
-chmod 4755 /usr/bin/systemctl
-chmod 4755 /sbin/shutdown
-
-echo 'export PATH=$PATH:/sbin' >> /etc/profile
-
-systemctl enable sshd
-systemctl enable systemd-networkd.service
-systemctl enable systemd-resolved.service
-systemctl enable wpa_supplicant.service
-systemctl enable bluetooth.service
-systemctl enable allanin.service
-#systemctl enable nfceventd.service
-systemctl enable connman
-systemctl enable devmon@allanin
-
-hostnamectl set-hostname www.allanin.org
-
-localectl set-locale LANG=de_DE.utf8
-localectl set-keymap de-latin1-nodeadkeys
-
-timedatectl set-local-rtc 0
-timedatectl set-ntp true
-timedatectl set-timezone 'Europe/Berlin'
-
-systemd-machine-id-setup
-
-connmanctl enable ethernet
-connmanctl enable bluetooth
-connmanctl enable wifi
-
-echo ""
-echo "Please change your password with passwd"
-echo ""
-passwd allanin
