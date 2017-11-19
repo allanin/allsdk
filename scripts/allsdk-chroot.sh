@@ -7,9 +7,11 @@ function enter_chroot() {
 
 function create_chroot() {
 	echo "Delete existing SDK structure"
-	delete_structure;
+#	deactivated for testing purposes
+#	delete_structure;
 	create_structure;
-	download_files;
+#	deactivated for testing purposes
+#	download_files;
 	setup_files;
 }
 
@@ -69,6 +71,7 @@ function setup_files() {
 
 	echo "Copy required config files"
 
+	#etc
 	cp -a ../base/etc/asound.conf ../../allanin/etc/
 	cp -a ../base/etc/fstab ../../allanin/etc/
 	cp -a ../base/etc/dracut.conf ../../allanin/etc/
@@ -82,6 +85,9 @@ function setup_files() {
 
 	cp -a ../base/etc/blacklist.conf ../../allanin/etc/modprobe.d/
 
+	#kernel
+	cp -a  ../base/linux/config ../../allanin/root/
+
 	#portage
 	cp -a ../base/portage/make.conf ../../allanin/etc/portage/
 	cp -a ../base/portage/package.accept_keywords ../../allanin/etc/portage/
@@ -90,25 +96,31 @@ function setup_files() {
 	cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
 	cp -a ../base/portage/emunin.conf ../../allanin/etc/portage/repos.conf/
 
+	cp -a ../../portage ../../allanin/usr/
+
 	#systemd
 	cp -a ../base/systemd/timesyncd.conf ../../allanin/etc/systemd/timesyncd.conf
 
 	#root
-	cp -a allsdk.sh ../../allanin/root/
+	cp -a allsdk-update.sh ../../allanin/root/
+	cp -a allsdk-build.sh ../../allanin/root/
+
+	#overlays
 	cp -a ../../overlay/emunin ../../allanin/usr/local/overlay/
+	cp -a ../../overlay/allanin ../../allanin/usr/local/overlay/
 
 	#distfiles
 	echo "Copy portage distfiles"
-	cp -a ../../distfiles ../../allanin/usr/portage/
+	cp -a ../../distfiles ../../allanin/usr/portage/distfiles
 
-	#distfiles
+	#packages
 	echo "Copy portage packages"
 	cp -a ../../packages ../../allanin/usr/portage/
 	}
 
 case "$1" in
 	"create-chroot")
-        	enter_chroot;
+        	create_chroot;
     	;;
 	"enter-chroot")
 		enter_chroot;
