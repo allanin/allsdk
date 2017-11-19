@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#ToDo: Change make.conf for /build
+sed -i '/#ROOT=/c\ROOT="/build"' /etc/portage/make.conf
 
 rm -rf /build
 
