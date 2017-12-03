@@ -6,3 +6,12 @@
 >=x11-libs/libdrm-2.4.87 ~amd64
 =dev-lang/python-2.7.14 ~amd64
 =net-misc/connman-1.35-r1 ~amd64
+
+=dev-libs/json-c-0.12.1 ~amd64
+=dev-libs/sway-0.15.0 ~amd64
+=dev-libs/wlc-0.0.11 ~amd64
+=dev-libs/wayland-protocols-1.11 ~amd64
+# required by vte-ng (argument)
+=x11-libs/vte-ng-0.48.2.9999 **
+# required by x11-terms/termite (argument)
+=x11-terms/termite-9999 **

@@ -2,11 +2,10 @@
 
 function create_base () {
 	emerge dev-vcs/git
-	emerge --sync
-	emerge -e --deep --with-bdeps=y --newuse @world
-	emerge --sync
+#	emerge --sync
+	emerge -e --binpkg-changed-deps=y --binpkg-respect-use=y --deep --with-bdeps=y --newuse @world
+#	emerge --sync
 	emerge --depclean
-	emerge =dev-lang/python-2.7.14
 	emerge linux-firmware ntfs3g wireless-tools
 }
 
@@ -15,6 +14,7 @@ function prepare_chroot () {
 
 	passwd -d root
 	eselect profile set 9
+	eselect python set 2
 
 	source /etc/profile
 	env-update
@@ -23,7 +23,11 @@ function prepare_chroot () {
 }
 
 function create_allanin () {
-	emerge retroarch allanin
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin
+}
+
+function create_emunin () {
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin retroarch
 }
 
 function build_kernel () {
@@ -61,6 +65,9 @@ case "$1" in
         ;;
         "create-allanin")
                 create_allanin;
+        ;;
+        "create-emunin")
+                create_emunin;
         ;;
         "build-kernel")
                 build_kernel;

@@ -1,11 +1,23 @@
->=dev-python/appdirs-1.4.3 python_targets_python2_7
->=dev-python/packaging-16.8 python_targets_python2_7
->=dev-python/six-1.10.0 python_targets_python2_7
->=dev-python/pyparsing-2.1.10 python_targets_python2_7
->=dev-python/m2crypto-0.24.0 python_targets_python2_7
->=dev-python/certifi-2017.4.17 python_targets_python2_7
->=dev-python/setuptools-34.0.2-r1 python_targets_python2_7
 >=sys-apps/util-linux-2.28.2 kill
->=app-text/asciidoc-8.6.9-r2 python_targets_python2_7 python_single_target_python2_7
 >=dev-db/postgresql-9.5.8 server
+
 >=media-video/ffmpeg-3.3.4 -ssh
+>=x11-libs/cairo-1.14.8 X
+>=x11-libs/gtk+-3.22.16 X
+>=media-libs/libepoxy-1.4.2 X
+>=sys-apps/kmod-23 tools
+>=app-emulation/qemu-2.10.1 -libusb
+>=sys-apps/pcsc-lite-1.8.22 -libusb
+# required by dev-util/itstool-2.0.2::gentoo
+# required by gnome-extra/yelp-xsl-3.20.1::gentoo
+# required by app-text/yelp-tools-3.18.0::gentoo
+# required by dev-util/gtk-doc-1.25-r1::gentoo
+# required by x11-libs/vte-ng-0.48.2.9999::allanin
+# required by vte-ng (argument)
+>=dev-libs/libxml2-2.9.4-r3 python
+>=x11-libs/vte-ng-0.48.2.9999 -crypt
+>=media-sound/mpd-0.19.19 -network
+# required by media-video/mpv-0.25.0-r2::gentoo[libass]
+# required by @selected
+# required by @world (argument)
+>=media-libs/libass-0.13.6 harfbuzz fontconfig

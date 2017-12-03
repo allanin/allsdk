@@ -9,7 +9,7 @@ function create_chroot() {
 	echo "Delete existing SDK structure"
 #	deactivated for testing purposes
 #	delete_structure;
-	create_structure;
+#	create_structure;
 #	deactivated for testing purposes
 #	download_files;
 	setup_files;
@@ -59,13 +59,13 @@ function download_files() {
 	git clone https://github.com/allanin/allanin.git ../../overlay/allanin
 	git clone https://github.com/allanin/emunin.git ../../overlay/emunin
 
-	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171108.tar.bz2  -P ../../stages/
+	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171123.tar.bz2  -P ../../stages/
 }
 
 function setup_files() {
 	echo "Extract files for bootstrapping"
 	
-	tar xjpf ../../stages/stage3-amd64-systemd-20171108.tar.bz2 -C ../../allanin
+	tar xjpf ../../stages/stage3-amd64-systemd-20171123.tar.bz2 -C ../../allanin
 	mkdir -p ../../allanin/usr/local/overlay
 	mkdir ../../allanin/etc/portage/repos.conf
 
@@ -92,6 +92,7 @@ function setup_files() {
 	cp -a ../base/portage/make.conf ../../allanin/etc/portage/
 	cp -a ../base/portage/package.accept_keywords ../../allanin/etc/portage/
 	cp -a ../base/portage/package.use ../../allanin/etc/portage/
+	cp -a ../base/portage/package.license ../../allanin/etc/portage/
 
 	cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
 	cp -a ../base/portage/emunin.conf ../../allanin/etc/portage/repos.conf/
