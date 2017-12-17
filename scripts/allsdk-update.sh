@@ -2,9 +2,8 @@
 
 function create_base () {
 	emerge dev-vcs/git
-#	emerge --sync
+	emerge --sync
 	emerge -e --binpkg-changed-deps=y --binpkg-respect-use=y --deep --with-bdeps=y --newuse @world
-#	emerge --sync
 	emerge --depclean
 }
 
@@ -12,6 +11,7 @@ function prepare_chroot () {
 	sed -i '/ROOT=/c\#ROOT=' /etc/portage/make.conf
 
 	passwd -d root
+	emerge --sync
 	eselect profile set 9
 	eselect python set 2
 

@@ -9,6 +9,9 @@
 #Required for loading modules
 >=sys-apps/kmod-23 tools
 
+#Deaktivating ssh for ffmpeg
+>=media-video/ffmpeg-3.3.5 -ssh
+
 #Should be checked
 #>=dev-libs/libxml2-2.9.4-r3 python
 >=media-libs/libass-0.13.6 harfbuzz fontconfig
