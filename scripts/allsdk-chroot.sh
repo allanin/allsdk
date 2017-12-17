@@ -27,7 +27,7 @@ function setup_chroot() {
 function update_chroot() {
 	echo "Update chroot"
 
-	cd ../../overlay/allanin-base
+	cd ../../overlay/allanin
 	git pull
 }
 
@@ -70,7 +70,7 @@ function delete_allanin() {
 function download_files() {
 	echo "Download SDK files"
 
-	git clone https://github.com/allanin/allanin.git ../../overlay/allanin-base
+	git clone https://github.com/allanin/allanin.git ../../overlay/allanin
 
 	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171213.tar.bz2 -P ../../stages/
 }
@@ -119,7 +119,7 @@ function setup_files() {
 	cp -a allsdk-build.sh ../../allanin/root/
 
 	#overlays
-	cp -a ../../overlay/allanin-base ../../allanin/usr/local/overlay/
+	cp -a ../../overlay/allanin ../../allanin/usr/local/overlay/
 
 	#distfiles
 	echo "Copy portage distfiles"
