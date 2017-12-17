@@ -107,7 +107,7 @@ function setup_files() {
 	cp -a ../base/portage/package.use ../../allanin/etc/portage/
 	cp -a ../base/portage/package.license ../../allanin/etc/portage/
 
-	cp -a ../base/portage/allanin-base.conf ../../allanin/etc/portage/repos.conf/
+	cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
 
 	cp -a ../../portage ../../allanin/usr/
 
