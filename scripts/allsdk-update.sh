@@ -6,7 +6,6 @@ function create_base () {
 	emerge -e --binpkg-changed-deps=y --binpkg-respect-use=y --deep --with-bdeps=y --newuse @world
 #	emerge --sync
 	emerge --depclean
-	emerge linux-firmware ntfs3g wireless-tools
 }
 
 function prepare_chroot () {
@@ -22,12 +21,16 @@ function prepare_chroot () {
 	locale-gen
 }
 
-function create_allanin () {
-	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin
+function create_allanin_base () {
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin-base
 }
 
-function create_emunin () {
-	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin retroarch
+function create_allanin_emunin () {
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin-emunin
+}
+
+function create_allanin_swayland () {
+        emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin-swayland
 }
 
 function build_kernel () {
@@ -43,12 +46,28 @@ function clean_up () {
 	eselect news read
 }
 
-function create_packages () {
+function create_allanin () {
+        prepare_chroot;
+        create_base;
+        create_allanin_base;
+        build_kernel;
+        clean_up;
+}
+
+function create_emunin () {
 	prepare_chroot;
 	create_base;
-	create_allanin;
+	create_allanin_emunin;
 	build_kernel;
 	clean_up;
+}
+
+function create_swayland () {
+        prepare_chroot;
+        create_base;
+        create_allanin_swayland;
+        build_kernel;
+        clean_up;
 }
 
 function update_packages () {
@@ -68,6 +87,9 @@ case "$1" in
         ;;
         "create-emunin")
                 create_emunin;
+        ;;
+        "create-swayland")
+                create_swayland;
         ;;
         "build-kernel")
                 build_kernel;

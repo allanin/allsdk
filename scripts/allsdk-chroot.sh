@@ -1,25 +1,33 @@
 #!/bin/bash
 
 function enter_chroot() {
+	echo "Entering chroot"
+
 	bind_chroot;
 	screen chroot ../../allanin /bin/bash
 }
 
 function create_chroot() {
 	echo "Delete existing SDK structure"
-#	deactivated for testing purposes
-#	delete_structure;
-#	create_structure;
-#	deactivated for testing purposes
-#	download_files;
+
+	delete_structure;
+	create_structure;
+	download_files;
 	setup_files;
+}
+
+function setup_chroot() {
+	echo "Setup existing SDK structure"
+
+	delete_allanin;
+	create_structure;
+	setup_files;	
 }
 
 function update_chroot() {
 	echo "Update chroot"
-	cd ../../overlay/allanin
-	git pull
-	cd ../../overlay/emunin
+
+	cd ../../overlay/allanin-base
 	git pull
 }
 
@@ -43,7 +51,7 @@ function create_structure() {
 }
 
 function delete_structure() {
-echo "Deleting existing SDK files"
+	echo "Deleting existing SDK directories"
 
 	rm -rf ../../allanin
 	rm -rf ../../distfiles
@@ -53,19 +61,24 @@ echo "Deleting existing SDK files"
 	rm -rf ../../stages
 }
 
+function delete_allanin() {
+	echo "Deleting existing allanin directory"
+	
+	rm -rf ../../allanin
+}
+
 function download_files() {
 	echo "Download SDK files"
 
-	git clone https://github.com/allanin/allanin.git ../../overlay/allanin
-	git clone https://github.com/allanin/emunin.git ../../overlay/emunin
+	git clone https://github.com/allanin/allanin.git ../../overlay/allanin-base
 
-	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171123.tar.bz2  -P ../../stages/
+	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171213.tar.bz2 -P ../../stages/
 }
 
 function setup_files() {
 	echo "Extract files for bootstrapping"
 	
-	tar xjpf ../../stages/stage3-amd64-systemd-20171123.tar.bz2 -C ../../allanin
+	tar xjpf ../../stages/stage3-amd64-systemd-20171213.tar.bz2 -C ../../allanin
 	mkdir -p ../../allanin/usr/local/overlay
 	mkdir ../../allanin/etc/portage/repos.conf
 
@@ -94,8 +107,7 @@ function setup_files() {
 	cp -a ../base/portage/package.use ../../allanin/etc/portage/
 	cp -a ../base/portage/package.license ../../allanin/etc/portage/
 
-	cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
-	cp -a ../base/portage/emunin.conf ../../allanin/etc/portage/repos.conf/
+	cp -a ../base/portage/allanin-base.conf ../../allanin/etc/portage/repos.conf/
 
 	cp -a ../../portage ../../allanin/usr/
 
@@ -107,8 +119,7 @@ function setup_files() {
 	cp -a allsdk-build.sh ../../allanin/root/
 
 	#overlays
-	cp -a ../../overlay/emunin ../../allanin/usr/local/overlay/
-	cp -a ../../overlay/allanin ../../allanin/usr/local/overlay/
+	cp -a ../../overlay/allanin-base ../../allanin/usr/local/overlay/
 
 	#distfiles
 	echo "Copy portage distfiles"
@@ -123,6 +134,9 @@ case "$1" in
 	"create-chroot")
         	create_chroot;
     	;;
+	"setup-chroot")
+		setup_chroot;
+	;;
 	"enter-chroot")
 		enter_chroot;
 	;;
@@ -132,6 +146,9 @@ case "$1" in
 	"delete-chroot")
         	delete_chroot;
 	;;
+        "delete-allanin")
+                delete_allanin;
+        ;;
 	*)
 	echo "You have failed to specify what to do correctly."
 	exit 1
