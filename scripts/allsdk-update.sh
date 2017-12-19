@@ -70,6 +70,15 @@ function create_swayland () {
         clean_up;
 }
 
+function create_packages () {
+        prepare_chroot;
+        create_base;
+	create_allanin_emunin;
+        create_allanin_swayland;
+        build_kernel;
+        clean_up;
+}
+
 function update_packages () {
 	emerge -uND world;
 	clean_up;

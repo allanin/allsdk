@@ -123,7 +123,7 @@ function setup_files() {
 
 	#distfiles
 	echo "Copy portage distfiles"
-	cp -a ../../distfiles ../../allanin/usr/portage/distfiles
+	cp -a ../../distfiles ../../allanin/usr/portage/
 
 	#packages
 	echo "Copy portage packages"
