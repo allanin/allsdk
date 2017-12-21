@@ -2,6 +2,7 @@
 
 function create_system () {
 	emerge baselayout
+	emerge openssh
 	emerge -e --deep --with-bdeps=y --newuse @system
 }
 
@@ -20,6 +21,9 @@ function create_swayland () {
 function prepare_build () {
 	rm -rf /target
 	mkdir /target
+
+	rm -rf /kernel
+	mkdir /kernel
 
 	rm -rf /build
 	mkdir /build
@@ -77,6 +81,10 @@ function adjust_permissions () {
 	echo 'export PATH=$PATH:/sbin' >> /build/etc/profile
 }
 
+function activate_services () {
+	echo "ToDo"
+}
+
 function remove_build () {
         rm -rf /build
 }
@@ -85,7 +93,7 @@ function create_allanin () {
 	remove_build;
 	prepare_build;
 	create_system;
-	create_allanin;
+	create_base;
 	copy_configs;
 	copy_modules;
 	clean_build;

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function copy_target () {
-	rsync -a /root/allanin/build/ /root/allanin/target
+	rsync -a --delete /root/allanin/build/ /root/allanin/target
 }
 
 function copy_kernel () {
