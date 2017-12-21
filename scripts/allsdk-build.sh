@@ -6,15 +6,15 @@ function create_system () {
 	emerge -e --deep --with-bdeps=y --newuse @system
 }
 
-function create_base () {
+function create_allanin_base () {
         emerge allanin-base
 }
 
-function create_emunin () {
+function create_allanin_emunin () {
         emerge allanin-emunin
 }
 
-function create_swayland () {
+function create_allanin_swayland () {
         emerge allanin-swayland
 }
 
@@ -93,7 +93,7 @@ function create_allanin () {
 	remove_build;
 	prepare_build;
 	create_system;
-	create_base;
+	create_allanin_base;
 	copy_configs;
 	copy_modules;
 	clean_build;
@@ -105,7 +105,7 @@ function create_emunin () {
         remove_build;
         prepare_build;
         create_system;
-        create_emunin;
+        create_allanin_emunin;
         copy_configs;
         copy_modules;
         clean_build;
@@ -117,7 +117,7 @@ function create_swayland () {
         remove_build;
         prepare_build;
         create_system;
-        create_swayland;
+        create_allanin_swayland;
         copy_configs;
         copy_modules;
         clean_build;

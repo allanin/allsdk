@@ -12,7 +12,7 @@ function prepare_chroot () {
 
 	passwd -d root
 	emerge --sync
-	eselect profile set 9
+	eselect profile set 22
 	eselect python set 2
 
 	source /etc/profile
