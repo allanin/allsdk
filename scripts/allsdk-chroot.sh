@@ -40,7 +40,7 @@ function bind_chroot() {
 }
 
 function create_structure() {
-	echo "Create structure for sdk"
+	echo "Create structure for SDK"
 
 	mkdir -p ../../distfiles
 	mkdir -p ../../overlay

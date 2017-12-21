@@ -1,15 +1,26 @@
 #!/bin/bash
 
-function create_build () {
-	sed -i '/#ROOT=/c\ROOT="/build"' /etc/portage/make.conf
+function create_system () {
 	emerge baselayout
-	emerge -e --deep --with-bdeps=y --newuse @world
-	emerge =dev-lang/python-2.7.14
-	emerge linux-firmware ntfs3g openssh wireless-tools
-	emerge retroarch allanin
+	emerge -e --deep --with-bdeps=y --newuse @system
+}
+
+function create_base () {
+        emerge allanin-base
+}
+
+function create_emunin () {
+        emerge allanin-emunin
+}
+
+function create_swayland () {
+        emerge allanin-swayland
 }
 
 function prepare_build () {
+	rm -rf /target
+	mkdir /target
+
 	rm -rf /build
 	mkdir /build
 	mkdir /build/dev
@@ -22,6 +33,8 @@ function prepare_build () {
 	chmod -R 777 /build/tmp
 	chmod +t /build/tmp
 	chown -R allanin:allanin /build/storage/
+
+	sed -i '/#ROOT=/c\ROOT="/build"' /etc/portage/make.conf
 }
 
 function copy_configs () {
@@ -64,10 +77,15 @@ function adjust_permissions () {
 	echo 'export PATH=$PATH:/sbin' >> /build/etc/profile
 }
 
+function remove_build () {
+        rm -rf /build
+}
+
 function create_allanin () {
-	remove_allanin;
+	remove_build;
 	prepare_build;
-	create_build;
+	create_system;
+	create_allanin;
 	copy_configs;
 	copy_modules;
 	clean_build;
@@ -75,16 +93,42 @@ function create_allanin () {
 	activate_services;
 }
 
-function remove_allanin () {
-	rm -rf /build
+function create_emunin () {
+        remove_build;
+        prepare_build;
+        create_system;
+        create_emunin;
+        copy_configs;
+        copy_modules;
+        clean_build;
+        adjust_permissions;
+        activate_services;
+}
+
+function create_swayland () {
+        remove_build;
+        prepare_build;
+        create_system;
+        create_swayland;
+        copy_configs;
+        copy_modules;
+        clean_build;
+        adjust_permissions;
+        activate_services;
 }
 
 case "$1" in
         "create-allanin")
                 create_allanin;
         ;;
+        "create-emunin")
+                create_emunin;
+        ;;
+        "create-swayland")
+                create_swayland;
+        ;;
         "remove-allanin")
-                remove_allanin;
+                remove_build;
         ;;
         *)
         echo "You have failed to specify what to do correctly."
