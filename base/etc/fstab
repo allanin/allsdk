@@ -21,4 +21,5 @@
 # NOTE: You can use full paths to devices like /dev/sda3, but it is often
 #       the blkid(8) command.
 
-/dev/sda4 		/		ext4		noatime		0 1
+/dev/sda5 		/		ext4		noatime		0 1
+/dev/sda7		/storage	ext4		noatime		0 1

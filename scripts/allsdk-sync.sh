@@ -17,7 +17,7 @@ function umount_target () {
         umount /root/allanin/target
 }
 
-function sync_allanin () {
+function sync_rsync () {
 	umount_target
 	mount /dev/sda6 /root/allanin/target
 	copy_target
@@ -25,32 +25,20 @@ function sync_allanin () {
 	umount_target
 }
 
-function sync_emunin () {
+function sync_allanin () {
 	umount_target
         mount /dev/sda5 /root/allanin/target
         copy_target
 	copy_kernel
 	umount_target
 }
-
-function sync_swayland () {
-	umount_target
-        mount /dev/sda5 /root/allanin/target
-        copy_target
-	copy_kernel
-	umount_target
-}
-
 
 case "$1" in
         "sync-allanin")
                 sync_allanin;
         ;;
-        "sync-emunin")
-                sync_emunin;
-        ;;
-        "sync-swayland")
-                sync_swayland;
+        "sync-rsync")
+                sync_rsync;
         ;;
         *)
         echo "You have failed to specify what to do correctly."
