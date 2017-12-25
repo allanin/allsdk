@@ -42,6 +42,18 @@ function build_kernel () {
 	dracut --force
 }
 
+function download_files () {
+	echo "Downloading files"
+
+	prepare_chroot
+
+	emerge -e --binpkg-changed-deps=y --binpkg-respect-use=y --deep --with-bdeps=y --newuse @world -f
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin-base -f
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin-emunin -f
+	emerge --binpkg-changed-deps=y --binpkg-respect-use=y allanin-swayland -f
+	emerge gentoo-sources dracut dev-vcs/git -f
+}
+
 function clean_up () {
 	eselect news read
 }
@@ -108,6 +120,9 @@ case "$1" in
         ;;
         "update-packages")
                 update_packages;
+        ;;
+        "download-files")
+                download_files;
         ;;
         *)
         echo "You have failed to specify what to do correctly."

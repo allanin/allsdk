@@ -16,9 +16,20 @@ function create_chroot() {
 	setup_files;
 }
 
+function clear_chroot() {
+        echo "Unmounting required devices"
+
+	umount ../../allanin/tmp > /dev/null
+	umount ../../allanin/sys > /dev/null
+	umount ../../allanin/proc > /dev/null
+	umount ../../allanin/dev > /dev/null
+}
+
+
 function setup_chroot() {
 	echo "Setup existing SDK structure"
 
+	clear_chroot;
 	delete_allanin;
 	create_structure;
 	setup_files;	
@@ -33,10 +44,11 @@ function update_chroot() {
 
 function bind_chroot() {
 	echo "Mounting required directories"
-	mount -o rbind /dev ../../allanin/dev > /dev/null &
-	mount -t proc none ../../allanin/proc > /dev/null &
-	mount -o bind /sys ../../allanin/sys > /dev/null &
-	mount -o bind /tmp ../../allanin/tmp > /dev/null &
+
+        mount --bind /dev ../../allanin/dev > /dev/null &
+        mount -t proc none ../../allanin/proc > /dev/null &
+        mount --bind /sys ../../allanin/sys > /dev/null &
+        mount --bind /tmp ../../allanin/tmp > /dev/null &
 }
 
 function create_structure() {
@@ -52,7 +64,8 @@ function create_structure() {
 
 function delete_structure() {
 	echo "Deleting existing SDK directories"
-
+	
+	clear_chroot;
 	rm -rf ../../allanin
 	rm -rf ../../distfiles
 	rm -rf ../../overlay
@@ -64,6 +77,7 @@ function delete_structure() {
 function delete_allanin() {
 	echo "Deleting existing allanin directory"
 	
+	clear_chroot;
 	rm -rf ../../allanin
 }
 
@@ -72,13 +86,13 @@ function download_files() {
 
 	git clone https://github.com/allanin/allanin.git ../../overlay/allanin
 
-	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171213.tar.bz2 -P ../../stages/
+	wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-systemd/stage3-amd64-systemd-20171218.tar.bz2 -P ../../stages/
 }
 
 function setup_files() {
 	echo "Extract files for bootstrapping"
 	
-	tar xjpf ../../stages/stage3-amd64-systemd-20171213.tar.bz2 -C ../../allanin
+	tar xjpf ../../stages/stage3-amd64-systemd-20171218.tar.bz2 -C ../../allanin
 	mkdir -p ../../allanin/usr/local/overlay
 	mkdir ../../allanin/etc/portage/repos.conf
 
@@ -149,6 +163,9 @@ case "$1" in
         "delete-allanin")
                 delete_allanin;
         ;;
+	"clear-chroot")
+		clear_chroot;
+	;;
 	*)
 	echo "You have failed to specify what to do correctly."
 	exit 1

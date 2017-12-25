@@ -9,6 +9,9 @@
 #Required for loading modules
 >=sys-apps/kmod-23 tools
 
+#Required for working portage
+>=app-arch/tar-1.29-r3 -minimal
+
 #Deaktivating ssh for ffmpeg
 >=media-video/ffmpeg-3.3.5 -ssh
 
