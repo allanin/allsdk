@@ -38,7 +38,16 @@ function build_kernel () {
 	cp /root/config /usr/src/linux/.config
 
 	cd /usr/src/linux
-	make -j 4 && make modules_install -j 4 && make install -j 4
+	
+	echo "Compiling kernel"
+	make -j 4  >/dev/null 2>&1
+
+	echo "Installing modules"
+	make modules_install -j 4  >/dev/null 2>&1
+
+	echo "Installing kernel"
+	make install -j 4  >/dev/null 2>&1
+
 	dracut --force
 }
 

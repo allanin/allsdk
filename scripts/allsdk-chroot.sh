@@ -19,10 +19,11 @@ function create_chroot() {
 function clear_chroot() {
         echo "Unmounting required devices"
 
-	umount ../../allanin/tmp > /dev/null
-	umount ../../allanin/sys > /dev/null
-	umount ../../allanin/proc > /dev/null
-	umount ../../allanin/dev > /dev/null
+	umount ../../allanin/tmp  >/dev/null 2>&1
+	umount ../../allanin/sys  >/dev/null 2>&1
+	umount ../../allanin/proc  >/dev/null 2>&1
+        umount ../../allanin/dev/shm  >/dev/null 2>&1
+	umount ../../allanin/dev  >/dev/null 2>&1
 }
 
 
@@ -45,10 +46,11 @@ function update_chroot() {
 function bind_chroot() {
 	echo "Mounting required directories"
 
-        mount --bind /dev ../../allanin/dev > /dev/null &
-        mount -t proc none ../../allanin/proc > /dev/null &
-        mount --bind /sys ../../allanin/sys > /dev/null &
-        mount --bind /tmp ../../allanin/tmp > /dev/null &
+        mount --bind /dev ../../allanin/dev  >/dev/null 2>&1
+        mount -t proc none ../../allanin/proc  >/dev/null 2>&1
+        mount --bind /sys ../../allanin/sys  >/dev/null 2>&1
+        mount --bind /tmp ../../allanin/tmp  >/dev/null 2>&1
+        mount --bind /dev/shm ../../allanin/dev/shm  >/dev/null 2>&1
 }
 
 function create_structure() {
