@@ -124,7 +124,7 @@ function setup_files() {
 	cp -a ../base/portage/package.license ../../allanin/etc/portage/
 
 	cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
-	cp -a ../base/portage/portage.conf ../../allanin/etc/portage/repos.conf/
+	cp -a ../base/portage/gentoo.conf ../../allanin/etc/portage/repos.conf/
 
 	cp -a ../../portage ../../allanin/usr/
 
@@ -137,7 +137,7 @@ function setup_files() {
 
 	#overlays
 	cp -a ../../overlay/allanin ../../allanin/usr/local/overlay/
-	cp -a ../../overlay/portage ../../allanin/usr/local/overlay/
+	cp -a ../../overlay/gentoo ../../allanin/usr/local/overlay/
 
 	#distfiles
 	echo "Copy portage distfiles"
