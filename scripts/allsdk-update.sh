@@ -104,6 +104,19 @@ function update_packages () {
 	clean_up;
 }
 
+function sync_overlay () {
+rsync -Rr --delete rsync://rsync6.de.gentoo.org/gentoo-portage/eclass /usr/local/overlay/gentoo/
+rsync -Rr --delete rsync://rsync6.de.gentoo.org/gentoo-portage/licenses /usr/local/overlay/gentoo/ 
+rsync -Rr --delete rsync://rsync6.de.gentoo.org/gentoo-portage/metadata /usr/local/overlay/gentoo/
+rsync -Rr --delete rsync://rsync6.de.gentoo.org/gentoo-portage/profiles /usr/local/overlay/gentoo/
+rsync -Rr --delete rsync://rsync6.de.gentoo.org/gentoo-portage/scripts /usr/local/overlay/gentoo/
+
+equery -p -q list "*" -F 'rsync -Rr --delete rsync://rsync6.de.gentoo.org/gentoo-portage/$category/$name /usr/local/overlay/gentoo/' | sh
+
+sed -i '/thin-manifests = false/c\thin-manifests = true' /usr/local/overlay/gentoo/metadata/layout.conf
+}
+
+
 case "$1" in
         "create-base")
                 create_base;
@@ -131,6 +144,9 @@ case "$1" in
         ;;
         "download-files")
                 download_files;
+        ;;
+       "sync-overlay")
+                sync_overlay;
         ;;
         *)
         echo "You have failed to specify what to do correctly."
