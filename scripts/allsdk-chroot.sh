@@ -94,8 +94,9 @@ function setup_files() {
 	echo "Extract files for bootstrapping"
 	
 	tar xjpf ../../stages/stage3-amd64-systemd-20171218.tar.bz2 -C ../../allanin
+	mkdir -p ../../allanin/usr/portage
 	mkdir -p ../../allanin/usr/local/overlay
-	mkdir ../../allanin/etc/portage/repos.conf
+	mkdir -p ../../allanin/etc/portage/repos.conf
 
 	echo "Copy required config files"
 
@@ -124,8 +125,6 @@ function setup_files() {
 
 	cp -a ../base/portage/allanin.conf ../../allanin/etc/portage/repos.conf/
 	cp -a ../base/portage/gentoo.conf ../../allanin/etc/portage/repos.conf/
-
-	cp -a ../../portage ../../allanin/usr/
 
 	#systemd
 	cp -a ../base/systemd/timesyncd.conf ../../allanin/etc/systemd/timesyncd.conf
