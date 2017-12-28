@@ -11,7 +11,6 @@ function prepare_chroot () {
 	sed -i '/ROOT=/c\#ROOT=' /etc/portage/make.conf
 
 	passwd -d root
-	emerge --sync
 	eselect profile set 22
 	eselect python set 2
 

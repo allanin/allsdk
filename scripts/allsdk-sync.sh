@@ -6,8 +6,8 @@ function copy_target () {
 
 function copy_kernel () {
 	mount /dev/sda2 /root/allanin/kernel
-	cp -a /root/allanin/kernel/gentoo /root/allanin/kernel/backup_gentoo
-	cp -a /root/allanin/kernel/gentoo_initrd /root/allanin/kernel/backup_gentoo_initrd
+#	cp -a /root/allanin/kernel/gentoo /root/allanin/kernel/backup_gentoo
+#	cp -a /root/allanin/kernel/gentoo_initrd /root/allanin/kernel/backup_gentoo_initrd
 	cp -a /root/allanin/boot/initramfs* /root/allanin/kernel/gentoo_initrd
 	cp -a /root/allanin/boot/vmlinuz* /root/allanin/kernel/gentoo
 	umount /dev/sda2
