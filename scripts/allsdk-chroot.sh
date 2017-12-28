@@ -59,7 +59,6 @@ function create_structure() {
 	mkdir -p ../../distfiles
 	mkdir -p ../../overlay
 	mkdir -p ../../packages
-	mkdir -p ../../portage
 	mkdir -p ../../stages
 	mkdir -p ../../allanin
 }
